@@ -19,7 +19,10 @@ function fooSubmit(e) {
   console.log(inputValue);
   const newId = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
 
-  ulEl.insertAdjacentHTML('beforeend', createLiEl(inputValue, newId));
+  ulEl.insertAdjacentHTML(
+    'beforeend',
+    createLiEl({ text: inputValue, id: newId })
+  );
   addTask(inputValue, newId);
   e.target.reset();
 }
@@ -27,8 +30,8 @@ function fooSubmit(e) {
 // Напишіть логіку яка з сабміта буде брати значення поля інпут
 // Генерувати елемент списку LI  з текстом і кнопкою Х, у майбутньому це буде кнопка видалення таски
 
-function createLiEl(inputValue, id) {
-  return `<li id="${id}" class ="task-list-item">${inputValue}<button type="button">X</button></li>`;
+function createLiEl({ text, id }) {
+  return `<li id="${id}" class ="task-list-item">${text}<button type="button">X</button></li>`;
 }
 
 //TODO-3
@@ -43,3 +46,13 @@ function addTask(inputValue, id) {
 
 //TODO-4
 //Відформатуйте код таким чином, щоб данні в сховищі зберігались у вигляді об'єкта { id: value, text: value}, розмітка додавалась з айдішніком на елемент списку li, айдішнік генерувати з допомогою бібліотеки nanoid, її треба встановити
+
+//TODO-4
+// Написати функцію, яка буде при завантаженні сторінки відмальовувати розмітку беручи данні з ЛС
+function winMarcup() {
+  const arrTask = JSON.parse(localStorage.getItem(localStorageKey));
+  if (!arrTask) return;
+  const marcup = arrTask.map(createLiEl).join('');
+  ulEl.innerHTML = marcup;
+}
+winMarcup();
