@@ -56,3 +56,15 @@ function winMarcup() {
   ulEl.innerHTML = marcup;
 }
 winMarcup();
+
+//TODO-5
+//Створити логіку видалення елементів з сховища та розмітки
+ulEl.addEventListener('click', (e) => {
+  if (!e.target.closest('button')) return;
+  const li = e.target.closest('li');
+  const arrTask = JSON.parse(localStorage.getItem(localStorageKey));
+  if (!arrTask) return;
+  const newArr = arrTask.filter(({ id }) => id !== li.id);
+  localStorage.setItem(localStorageKey, JSON.stringify(newArr));
+  li.remove();
+});
