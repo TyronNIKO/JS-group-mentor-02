@@ -3,7 +3,11 @@
 // При сабміті треба у змінну записувати значення поля інпута
 // Повинна бути перевірка на порожнє поле.
 const formEl = document.querySelector('#task-form');
-console.log(formEl);
+const localStorageKey = "task-key";
+
+
+console.log();
+
 formEl.addEventListener('submit', fooSubmit);
 const ulEl = document.querySelector('#task-list');
 
@@ -16,6 +20,7 @@ function fooSubmit(e) {
   console.log(inputValue);
 
   ulEl.insertAdjacentHTML('beforeend', createLiEl(inputValue));
+  addTask(inputValue);
   e.target.reset();
 }
 //TODO-2
@@ -24,4 +29,14 @@ function fooSubmit(e) {
 
 function createLiEl(inputValue) {
   return `<li class ="task-list-item">${inputValue}<button type="button">X</button></li>`
+}
+
+//TODO-3
+// Написати функцію, яка при сабміті буде зберігати данні в сховище, в сховище повинні додаватись таски, а не перезаписуватись існуюча
+
+function addTask(inputValue) {
+  const arrTask = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+  arrTask.push(inputValue);
+  localStorage.setItem(localStorageKey, JSON.stringify(arrTask));
+
 }
