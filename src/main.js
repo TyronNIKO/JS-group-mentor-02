@@ -1,4 +1,6 @@
 import { nanoid } from 'nanoid';
+import { getFromLS, setToLS } from './js/localstorage.js';
+import { createLiEl, winMarcup } from './js/render.js';
 
 //TODO-1
 // Напишіть логіку обробнику подій по сабміту
@@ -30,18 +32,14 @@ function fooSubmit(e) {
 // Напишіть логіку яка з сабміта буде брати значення поля інпут
 // Генерувати елемент списку LI  з текстом і кнопкою Х, у майбутньому це буде кнопка видалення таски
 
-function createLiEl({ text, id }) {
-  return `<li id="${id}" class ="task-list-item">${text}<button type="button">X</button></li>`;
-}
-
 //TODO-3
 // Написати функцію, яка при сабміті буде зберігати данні в сховище, в сховище повинні додаватись таски, а не перезаписуватись існуюча
 
 function addTask(inputValue, id) {
-  const arrTask = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+  const arrTask = getFromLS(localStorageKey) || [];
   const obj = { id: id, text: inputValue };
   arrTask.push(obj);
-  localStorage.setItem(localStorageKey, JSON.stringify(arrTask));
+  setToLS(localStorageKey, arrTask);
 }
 
 //TODO-4
@@ -49,22 +47,16 @@ function addTask(inputValue, id) {
 
 //TODO-4
 // Написати функцію, яка буде при завантаженні сторінки відмальовувати розмітку беручи данні з ЛС
-function winMarcup() {
-  const arrTask = JSON.parse(localStorage.getItem(localStorageKey));
-  if (!arrTask) return;
-  const marcup = arrTask.map(createLiEl).join('');
-  ulEl.innerHTML = marcup;
-}
-winMarcup();
+winMarcup(ulEl, localStorageKey);
 
 //TODO-5
 //Створити логіку видалення елементів з сховища та розмітки
-ulEl.addEventListener('click', (e) => {
+ulEl.addEventListener('click', e => {
   if (!e.target.closest('button')) return;
   const li = e.target.closest('li');
-  const arrTask = JSON.parse(localStorage.getItem(localStorageKey));
+  const arrTask = getFromLS(localStorageKey);
   if (!arrTask) return;
   const newArr = arrTask.filter(({ id }) => id !== li.id);
-  localStorage.setItem(localStorageKey, JSON.stringify(newArr));
+  setToLS(localStorageKey, newArr);
   li.remove();
 });
