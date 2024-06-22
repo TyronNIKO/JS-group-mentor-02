@@ -1,4 +1,4 @@
-import { getFromLS } from './localstorage.js';
+import { getFromLS } from './helpers/localstorage.js';
 
 export function createLiEl({ text, id }) {
   return `<li id="${id}" class ="task-list-item">${text}<button type="button">X</button></li>`;

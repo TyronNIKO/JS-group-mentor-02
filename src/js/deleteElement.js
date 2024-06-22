@@ -1,4 +1,5 @@
-import { getFromLS, setToLS } from './localstorage.js';
+import { getFromLS, setToLS } from './helpers/localstorage.js';
+
 export function deleteElement(elem, key) {
   elem.addEventListener('click', e => {
     if (!e.target.closest('button')) return;

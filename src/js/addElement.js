@@ -1,4 +1,4 @@
-import { getFromLS, setToLS } from './localstorage.js';
+import { getFromLS, setToLS } from './helpers/localstorage.js';
 
 export function addElement({ id, inputValue, key }) {
   const arrTask = getFromLS(key) || [];
